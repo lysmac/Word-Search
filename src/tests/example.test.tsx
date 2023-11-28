@@ -82,6 +82,31 @@ test("User can write in the searchbar", async () => {
   expect(input).toHaveValue("test");
 });
 
+test("User get an error message when trying to search with an empty search field", async () => {
+  render(
+    <SearchProvider>
+      <App />
+    </SearchProvider>
+  );
+  const user = userEvent.setup();
+  const input = screen.getByRole("textbox");
+  const button = screen.getByRole("button", {
+    name: /Search!/i,
+  });
+  await user.type(input, " ");
+
+  expect(input).toHaveValue(" ");
+
+  user.click(button);
+
+  const response = await screen.findByText(
+    "Please enter a search term",
+    {},
+    { timeout: 500 }
+  );
+  await expect(response).toBeInTheDocument();
+});
+
 test("Make a search and get a result", async () => {
   render(
     <SearchProvider>
@@ -155,4 +180,23 @@ test("Darkmode/Lightmode works correctly", async () => {
     },
     { timeout: 1000 }
   );
+});
+
+test.only("Checks if theres an audio element rendered when when searching", async () => {
+  render(
+    <SearchProvider>
+      <App />
+    </SearchProvider>
+  );
+  const user = userEvent.setup();
+  const input = screen.getByRole("textbox");
+  const button = screen.getByRole("button", {
+    name: /Search!/i,
+  });
+
+  await user.type(input, "hello");
+  user.click(button);
+
+  const audioElement = await screen.findByTestId("audio-element");
+  expect(audioElement).toBeInTheDocument();
 });

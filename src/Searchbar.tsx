@@ -4,19 +4,16 @@ import { SearchContext } from "./resultContext";
 export default function Searchbar() {
   const [searchValue, setSearchValue] = useState("");
   const { fetchSearchResult } = useContext(SearchContext);
+  const [error, setError] = useState("");
 
   function onSubmit(text: string) {
-    fetchSearchResult(text);
+    if (text.trim() === "") {
+      setError("Please enter a search term");
+    } else {
+      setError("");
+      fetchSearchResult(text);
+    }
   }
-
-  // async function fetchWord(word: string) {
-  //   const response = await fetch(
-  //     `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-  //   );
-  //   const data = await response.json();
-  //   fetchSearchResult("hej");
-  //   // setSearchResult(data);
-  // }
 
   return (
     <form
@@ -32,6 +29,7 @@ export default function Searchbar() {
         placeholder={"Search for something"}
         value={searchValue}
       />
+      {error && <p>{error}</p>}
       <button
         type="submit"
         className="bg-emerald-700 hover:bg-emerald-800 text-floral font-bold py-2 px-4 rounded"

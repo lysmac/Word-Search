@@ -4,7 +4,8 @@ import { SearchContext } from "./resultContext";
 export default function Words() {
   const { searchResult } = useContext(SearchContext);
   return (
-    <div className="dark:bg-dark-purple bg-floral text-dark-purple dark:text-floral">
+    <div>
+      {" "}
       {searchResult === null ? (
         <p>You haven't searched for anything</p>
       ) : (
@@ -18,7 +19,7 @@ export default function Words() {
             {word.phonetics[0].audio ? (
               <>
                 <button>AUDIO</button>
-                <audio controls>
+                <audio controls data-testid="audio-element">
                   <source src={word.phonetics[0].audio} type="audio/mpeg" />
                 </audio>
               </>
