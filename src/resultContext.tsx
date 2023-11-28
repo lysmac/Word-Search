@@ -19,6 +19,7 @@ interface SearchResult {
 interface SearchContextValue {
   searchResult: SearchResult[] | null;
   fetchSearchResult: (word: string) => Promise<void>;
+  toggleDarkMode: () => void;
 }
 
 interface Props {
@@ -28,10 +29,16 @@ interface Props {
 export const SearchContext = createContext<SearchContextValue>({
   searchResult: null,
   fetchSearchResult: () => Promise.resolve(),
+  toggleDarkMode: () => {},
 });
 
 export default function SearchProvider({ children }: Props) {
   const [searchResult, setSearchResult] = useState<SearchResult[] | null>(null);
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   const fetchSearchResult = async (word: string) => {
     const response = await fetch(
@@ -42,8 +49,12 @@ export default function SearchProvider({ children }: Props) {
   };
 
   return (
-    <SearchContext.Provider value={{ searchResult, fetchSearchResult }}>
-      {children}
+    <SearchContext.Provider
+      value={{ searchResult, fetchSearchResult, toggleDarkMode }}
+    >
+      <div id="wrapper" className={darkMode ? "dark" : "light"}>
+        {children}
+      </div>
     </SearchContext.Provider>
   );
 }

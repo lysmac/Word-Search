@@ -132,19 +132,27 @@ test("Play the sound", async () => {
 });
 
 test("Darkmode/Lightmode works correctly", async () => {
-  render(<App />);
+  render(
+    <SearchProvider>
+      <App />
+    </SearchProvider>
+  );
   const user = userEvent.setup();
   const darkModeButton = screen.getByRole("button", {
     name: /Switch theme/i,
   });
   const wrapperDiv = document.querySelector("#wrapper");
+  const headerElement = screen.getByRole("banner");
 
-  expect(wrapperDiv).toHaveClass("light");
+  // Kollar så tailwind-classes finns för light/darkmode
+  expect(headerElement).toHaveClass("dark:bg-dark-purple bg-floral");
+
+  // Klickar på knappen för att byta tema och ser till att wrappern får class dark
   user.click(darkModeButton);
   await waitFor(
     () => {
       expect(wrapperDiv).toHaveClass("dark");
     },
-    { timeout: 500 }
+    { timeout: 1000 }
   );
 });

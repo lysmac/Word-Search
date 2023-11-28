@@ -4,7 +4,7 @@ import { SearchContext } from "./resultContext";
 export default function Words() {
   const { searchResult } = useContext(SearchContext);
   return (
-    <div>
+    <div className="dark:bg-dark-purple bg-floral text-dark-purple dark:text-floral">
       {searchResult === null ? (
         <p>You haven't searched for anything</p>
       ) : (
