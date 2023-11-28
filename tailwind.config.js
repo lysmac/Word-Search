@@ -15,6 +15,8 @@ export default {
       "dark-purple": "#0D0628",
       emerald: colors.emerald,
       teal: colors.teal,
+      white: colors.white,
+      black: colors.black,
     },
   },
   plugins: [],

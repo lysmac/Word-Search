@@ -14,21 +14,19 @@ export default function App() {
 
   const { searchResult } = useContext(SearchContext);
 
-  console.log("searchres:", searchResult);
   return (
     <>
-      <div id="wrapper" className={darkMode ? "dark" : ""}>
+      <div id="wrapper" className={darkMode ? "dark" : "light"}>
         <Header />
-
         <Searchbar />
-
         <Words />
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="dark:text-dark-purple text-floral dark:bg-floral bg-dark-purple font-bold py-2 px-4 rounded"
           onClick={toggleDarkMode}
         >
-          Toggle Darkmode
+          Switch theme
         </button>
+        Hola
       </div>
     </>
   );

@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-header {
-  @apply dark:bg-dark-purple  bg-floral;
-}
-
 h1 {
   @apply text-6xl font-sans font-extrabold dark:text-floral text-dark-purple tracking-wide;
 }

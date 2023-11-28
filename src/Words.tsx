@@ -6,7 +6,7 @@ export default function Words() {
   return (
     <div>
       {searchResult === null ? (
-        <p>You haven't searched for something</p>
+        <p>You haven't searched for anything</p>
       ) : (
         searchResult.map((word: any) => (
           <div
@@ -15,9 +15,16 @@ export default function Words() {
           >
             <h2>{word.word}</h2>
             <p>{word.phonetic}</p>
-            <audio controls>
-              <source src={word.phonetics[0].audio} type="audio/mpeg" />
-            </audio>{" "}
+            {word.phonetics[0].audio ? (
+              <>
+                <button>AUDIO</button>
+                <audio controls>
+                  <source src={word.phonetics[0].audio} type="audio/mpeg" />
+                </audio>
+              </>
+            ) : (
+              <p>No audio available</p>
+            )}
           </div>
         ))
       )}

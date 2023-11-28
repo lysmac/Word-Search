@@ -6,7 +6,6 @@ export default function Searchbar() {
   const { fetchSearchResult } = useContext(SearchContext);
 
   function onSubmit(text: string) {
-    event?.preventDefault();
     fetchSearchResult(text);
   }
 

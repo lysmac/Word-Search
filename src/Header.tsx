@@ -1,7 +1,7 @@
 export default function Header() {
   return (
-    <header className="bg-floral dark:bg-blue-500">
-      <h1 className="">WORD L👀KUP</h1>
+    <header className="bg-floral dark:bg-dark-purple">
+      <h1 className="text-emerald-500">WORD LOOKUP</h1>
     </header>
   );
 }
