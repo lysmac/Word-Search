@@ -16,27 +16,29 @@ export default function Searchbar() {
   }
 
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        onSubmit(searchValue);
-      }}
-    >
-      {" "}
-      <input
-        className="border-2 border-emerald-950 rounded-md p-2 w-96"
-        onChange={(e) => setSearchValue(e.target.value)}
-        placeholder={"Search for something"}
-        value={searchValue}
-      />
-      {error && <p>{error}</p>}
-      <button
-        type="submit"
-        className="bg-emerald-700 hover:bg-emerald-800 text-floral font-bold py-2 px-4 rounded"
+    <>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSubmit(searchValue);
+        }}
       >
         {" "}
-        Search!
-      </button>
-    </form>
+        <input
+          className="border-2 border-emerald-950 rounded-md p-2 w-96"
+          onChange={(e) => setSearchValue(e.target.value)}
+          placeholder={"Search for something"}
+          value={searchValue}
+        />
+        {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+        <button
+          type="submit"
+          className="bg-emerald-700 hover:bg-emerald-800 text-floral font-bold py-2 px-4 rounded"
+        >
+          {" "}
+          Search!
+        </button>
+      </form>
+    </>
   );
 }

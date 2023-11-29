@@ -9,17 +9,15 @@ export default function App() {
 
   return (
     <>
-      <div className="dark:bg-dark-purple bg-floral text-dark-purple dark:text-floral">
-        <Header />
-        <Searchbar />
-        <Words />
-        <button
-          className="dark:text-dark-purple text-floral dark:bg-floral bg-dark-purple font-bold py-2 px-4 rounded"
-          onClick={toggleDarkMode}
+      <div className="flex h-screen flex-col items-center bg-floral text-dark-purple dark:bg-dark-purple dark:text-floral ">
+        <div
+          id="container"
+          className=" flex w-full max-w-xl flex-col items-center  "
         >
-          Switch theme
-        </button>
-        Hola
+          <Header />
+          <Searchbar />
+          <Words />
+        </div>
       </div>
     </>
   );
