@@ -204,3 +204,52 @@ describe("Tests related to darkmode/lightmode", () => {
     );
   });
 });
+
+describe("VG: User can add, view and delete a word from favourites page", () => {
+  test.only("Darkmode/Lightmode works correctly", async () => {
+    render(
+      <SearchProvider>
+        <App />
+      </SearchProvider>,
+    );
+    const user = userEvent.setup();
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button", {
+      name: /Search!/i,
+    });
+
+    await user.type(input, "hello");
+    expect(input).toHaveValue("hello");
+    user.click(button);
+
+    // Satte 1 sekund timeout för att få testet att fungera vid första starten
+    const response = await screen.findByText("hello", {}, { timeout: 1000 });
+    // const response = await screen.findByText("hello", {}, { timeout: 500 });
+    await expect(response).toBeInTheDocument();
+
+    const addButton = screen.getByRole("button", {
+      name: /Add to favourites/i,
+    });
+    user.click(addButton);
+
+    const savedWordsButton = screen.getByRole("button", {
+      name: /Saved words/i,
+    });
+
+    await user.click(savedWordsButton);
+
+    const removeButton = screen.getByRole("button", {
+      name: /Remove Word/i,
+    });
+
+    await expect(removeButton).toBeInTheDocument();
+    user.click(removeButton);
+
+    await waitFor(
+      () => {
+        expect(removeButton).not.toBeInTheDocument();
+      },
+      { timeout: 500 },
+    );
+  });
+});

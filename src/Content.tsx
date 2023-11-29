@@ -95,12 +95,15 @@ export default function Content() {
                 onClick={() => saveWord(word)}
               >
                 {" "}
-                SAVE WORD TO FAVS
+                Add to favourites
               </button>
             </>
           ))}
         {showSavedWords && savedWords && (
           <div>
+            <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-300">
+              Saved words
+            </h1>
             {savedWords.map((word: SearchResult, index: number) => (
               <>
                 <WordCard key={index} {...word} />
