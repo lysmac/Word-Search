@@ -11,7 +11,7 @@ export default function Content() {
   const [showSavedWords, setShowSavedWords] = useState(false);
 
   const baseClasses =
-    "text-emerald-700 border-emerald-900 dark:border-emerald-500 -px-1 inline-flex h-12 items-center whitespace-nowrap px-2 py-2 text-center focus:outline-none dark:text-white sm:px-4";
+    "text-dark-purple font-bold border-emerald-900 dark:border-emerald-500 -px-1 inline-flex h-12 items-center whitespace-nowrap px-2 py-2 text-center focus:outline-none dark:text-white sm:px-4";
   const activeClasses = "rounded-t-md border-2 border-b-0";
   const passiveClasses =
     "bg-transparent cursor-base hover:border-emerald-400 dark:hover:border-emerald-300 border-b-2";
@@ -28,15 +28,18 @@ export default function Content() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="mx-1 h-4 w-4 sm:h-6 sm:w-6"
+              className={`mx-1 h-4 w-4 sm:h-6 sm:w-6 ${
+                !showSavedWords
+                  ? "stroke-emerald-600 dark:stroke-emerald-500"
+                  : "stroke-dark-purple dark:stroke-floral"
+              }`}
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
               />
             </svg>
@@ -52,10 +55,13 @@ export default function Content() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="mx-1 h-4 w-4 sm:h-6 sm:w-6"
+              className={`mx-1 h-4 w-4 sm:h-6 sm:w-6 ${
+                showSavedWords
+                  ? "stroke-emerald-600 dark:stroke-emerald-500"
+                  : "stroke-dark-purple dark:stroke-floral"
+              }`}
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
             >
               <path
                 strokeLinecap="round"

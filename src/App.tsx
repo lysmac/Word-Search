@@ -5,7 +5,7 @@ import Searchbar from "./Searchbar";
 export default function App() {
   return (
     <>
-      <div className="flex h-screen flex-col items-center bg-floral text-dark-purple dark:bg-dark-purple dark:text-floral ">
+      <div className="flex h-full min-h-screen flex-col items-center bg-floral text-dark-purple dark:bg-dark-purple dark:text-floral ">
         <div
           id="container"
           className=" flex w-full max-w-xl flex-col items-center  "

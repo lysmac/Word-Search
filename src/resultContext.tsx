@@ -11,13 +11,15 @@ export interface SearchResult {
 export interface Meaning {
   partOfSpeech: string;
   definitions: Definition[];
+  synonyms: string[];
+  antonyms: string[];
 }
 
 export interface Definition {
   definition: string;
   example: string;
-  synonyms: any[];
-  antonyms: any[];
+  synonyms: string[];
+  antonyms: string[];
 }
 
 export interface Phonetic {
@@ -54,7 +56,6 @@ export default function SearchProvider({ children }: Props) {
 
   function saveWord(word: SearchResult) {
     setSavedWords([...savedWords, word]);
-    console.log(savedWords);
   }
 
   function removeWord(word: SearchResult) {
@@ -73,6 +74,7 @@ export default function SearchProvider({ children }: Props) {
     );
     const data = await response.json();
     setSearchResult(data);
+    console.log(data);
   };
 
   return (
