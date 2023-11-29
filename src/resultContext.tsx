@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-interface SearchResult {
+export interface SearchResult {
   word: string;
   phonetics: {
     text: string;
@@ -59,7 +59,7 @@ export default function SearchProvider({ children }: Props) {
 
   const fetchSearchResult = async (word: string) => {
     const response = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`
+      `https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`,
     );
     const data = await response.json();
     setSearchResult(data);

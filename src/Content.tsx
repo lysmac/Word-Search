@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { SearchContext } from "./resultContext";
+import { SearchContext, SearchResult } from "./resultContext";
 
-export default function Words() {
+export default function Content() {
   const { searchResult, saveWord, removeWord, savedWords } =
     useContext(SearchContext);
 
@@ -18,7 +18,7 @@ export default function Words() {
   return (
     <>
       <div className="flex w-full pt-2">
-        <div className="2 flex overflow-x-auto whitespace-nowrap ">
+        <div className="flex overflow-x-auto whitespace-nowrap">
           <button
             onClick={() => setShowSavedWords(false)}
             className={`${baseClasses} ${
@@ -67,7 +67,7 @@ export default function Words() {
             <span className="mx-1 text-sm sm:text-base">Saved words</span>
           </button>
         </div>
-        <div className="flex flex-1 border-b-2 border-emerald-900">
+        <div className="flex flex-1 border-b-2 border-emerald-900 dark:border-emerald-500">
           <button
             className="rounded bg-dark-purple px-4 py-2 text-xs font-bold text-floral dark:bg-floral dark:text-dark-purple"
             onClick={toggleDarkMode}
@@ -77,17 +77,21 @@ export default function Words() {
         </div>
       </div>
 
-      <div className="flex w-full flex-col items-center border-2 border-t-0 border-emerald-900 p-2">
+      <div className="flex w-full flex-col items-center border-2 border-t-0 border-emerald-900 p-2 dark:border-emerald-500">
         {" "}
         {!showSavedWords &&
           searchResult &&
-          searchResult.map((word: any, index: number) => (
+          searchResult.map((word: SearchResult, index: number) => (
             <div
               className="w-96 rounded-md border-2 border-emerald-950 p-2"
               key={index}
             >
               <h2>{word.word}</h2>
-              <p>{word.phonetic}</p>
+
+              {word.phonetics.map((phonetic, index) => (
+                <p key={index}>{phonetic.text}</p>
+              ))}
+
               <button
                 className="rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 "
                 onClick={() => saveWord(word)}
@@ -109,7 +113,7 @@ export default function Words() {
         {showSavedWords && savedWords && (
           <div>
             <ul>
-              {savedWords.map((word: any, index: number) => (
+              {savedWords.map((word: SearchResult, index: number) => (
                 <li
                   className="w-96 rounded-md border-2 border-emerald-950 p-2"
                   key={index}

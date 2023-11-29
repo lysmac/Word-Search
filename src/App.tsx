@@ -1,12 +1,8 @@
-import { useContext } from "react";
+import Content from "./Content";
 import Header from "./Header";
 import Searchbar from "./Searchbar";
-import Words from "./Words";
-import { SearchContext } from "./resultContext";
 
 export default function App() {
-  const { toggleDarkMode } = useContext(SearchContext);
-
   return (
     <>
       <div className="flex h-screen flex-col items-center bg-floral text-dark-purple dark:bg-dark-purple dark:text-floral ">
@@ -16,7 +12,7 @@ export default function App() {
         >
           <Header />
           <Searchbar />
-          <Words />
+          <Content />
         </div>
       </div>
     </>
