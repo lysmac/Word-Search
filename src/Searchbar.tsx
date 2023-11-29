@@ -28,7 +28,7 @@ export default function Searchbar() {
       >
         {" "}
         <input
-          className="w-96 rounded-md border-2 border-emerald-950 p-2"
+          className="w-96 rounded-md border-2 border-emerald-950 p-2 dark:text-dark-purple"
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder={"Search for something"}
           value={searchValue}

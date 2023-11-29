@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import WordCard from "./WordCard";
 import { SearchContext, SearchResult } from "./resultContext";
 
 export default function Content() {
@@ -17,7 +18,7 @@ export default function Content() {
 
   return (
     <>
-      <div className="flex w-full pt-2">
+      <div className="flex w-full pt-2 ">
         <div className="flex overflow-x-auto whitespace-nowrap">
           <button
             onClick={() => setShowSavedWords(false)}
@@ -33,9 +34,9 @@ export default function Content() {
               stroke="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
               />
             </svg>
@@ -57,9 +58,9 @@ export default function Content() {
               stroke="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
               />
             </svg>
@@ -67,9 +68,9 @@ export default function Content() {
             <span className="mx-1 text-sm sm:text-base">Saved words</span>
           </button>
         </div>
-        <div className="flex flex-1 border-b-2 border-emerald-900 dark:border-emerald-500">
+        <div className="flex flex-1 justify-end border-b-2 border-emerald-900 dark:border-emerald-500">
           <button
-            className="rounded bg-dark-purple px-4 py-2 text-xs font-bold text-floral dark:bg-floral dark:text-dark-purple"
+            className="text-md rounded  py-2 font-bold text-emerald-900 dark:text-emerald-300"
             onClick={toggleDarkMode}
           >
             Switch theme
@@ -78,20 +79,11 @@ export default function Content() {
       </div>
 
       <div className="flex w-full flex-col items-center border-2 border-t-0 border-emerald-900 p-2 dark:border-emerald-500">
-        {" "}
         {!showSavedWords &&
           searchResult &&
           searchResult.map((word: SearchResult, index: number) => (
-            <div
-              className="w-96 rounded-md border-2 border-emerald-950 p-2"
-              key={index}
-            >
-              <h2>{word.word}</h2>
-
-              {word.phonetics.map((phonetic, index) => (
-                <p key={index}>{phonetic.text}</p>
-              ))}
-
+            <>
+              <WordCard key={index} {...word} />
               <button
                 className="rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 "
                 onClick={() => saveWord(word)}
@@ -99,35 +91,22 @@ export default function Content() {
                 {" "}
                 SAVE WORD TO FAVS
               </button>
-              {word.phonetics[0].audio ? (
-                <>
-                  <audio controls data-testid="audio-element">
-                    <source src={word.phonetics[0].audio} type="audio/mpeg" />
-                  </audio>
-                </>
-              ) : (
-                <p>No audio available</p>
-              )}
-            </div>
+            </>
           ))}
         {showSavedWords && savedWords && (
           <div>
-            <ul>
-              {savedWords.map((word: SearchResult, index: number) => (
-                <li
-                  className="w-96 rounded-md border-2 border-emerald-950 p-2"
-                  key={index}
+            {savedWords.map((word: SearchResult, index: number) => (
+              <>
+                <WordCard key={index} {...word} />
+
+                <button
+                  className="rounded-md border-2 border-emerald-950 bg-red-500 p-2 "
+                  onClick={() => removeWord(word)}
                 >
-                  {word.word}
-                  <button
-                    className="rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 "
-                    onClick={() => removeWord(word)}
-                  >
-                    Remove Word
-                  </button>
-                </li>
-              ))}
-            </ul>
+                  Remove Word
+                </button>
+              </>
+            ))}
           </div>
         )}
       </div>

@@ -2,18 +2,27 @@ import { createContext, useState } from "react";
 
 export interface SearchResult {
   word: string;
-  phonetics: {
-    text: string;
-    audio: string;
-  }[];
-  meanings: {
-    partOfSpeech: string;
-    definitions: {
-      definition: string;
-      example: string;
-      synonyms: string[];
-    }[];
-  }[];
+  phonetic: string;
+  phonetics: Phonetic[];
+  origin: string;
+  meanings: Meaning[];
+}
+
+export interface Meaning {
+  partOfSpeech: string;
+  definitions: Definition[];
+}
+
+export interface Definition {
+  definition: string;
+  example: string;
+  synonyms: any[];
+  antonyms: any[];
+}
+
+export interface Phonetic {
+  text: string;
+  audio?: string;
 }
 
 interface SearchContextValue {
@@ -58,6 +67,7 @@ export default function SearchProvider({ children }: Props) {
   };
 
   const fetchSearchResult = async (word: string) => {
+    setSearchResult(null);
     const response = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`,
     );

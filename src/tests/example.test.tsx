@@ -63,9 +63,9 @@ const server = setupServer(
               ],
             },
           ],
-        })
-      )
-  )
+        }),
+      ),
+  ),
 );
 
 beforeAll(() => server.listen());
@@ -87,7 +87,7 @@ describe("Tests related to searching", () => {
     render(
       <SearchProvider>
         <App />
-      </SearchProvider>
+      </SearchProvider>,
     );
     const user = userEvent.setup();
     const input = screen.getByRole("textbox");
@@ -103,7 +103,7 @@ describe("Tests related to searching", () => {
     const response = await screen.findByText(
       "Please enter a search term",
       {},
-      { timeout: 500 }
+      { timeout: 500 },
     );
     await expect(response).toBeInTheDocument();
   });
@@ -112,7 +112,7 @@ describe("Tests related to searching", () => {
     render(
       <SearchProvider>
         <App />
-      </SearchProvider>
+      </SearchProvider>,
     );
     const user = userEvent.setup();
     const input = screen.getByRole("textbox");
@@ -134,7 +134,7 @@ describe("Tests related to searching", () => {
     render(
       <SearchProvider>
         <App />
-      </SearchProvider>
+      </SearchProvider>,
     );
     const user = userEvent.setup();
     const input = screen.getByRole("textbox");
@@ -182,7 +182,7 @@ describe("Tests related to darkmode/lightmode", () => {
     render(
       <SearchProvider>
         <App />
-      </SearchProvider>
+      </SearchProvider>,
     );
     const user = userEvent.setup();
     const darkModeButton = screen.getByRole("button", {
@@ -200,7 +200,7 @@ describe("Tests related to darkmode/lightmode", () => {
       () => {
         expect(wrapperDiv).toHaveClass("dark");
       },
-      { timeout: 1000 }
+      { timeout: 1000 },
     );
   });
 });
