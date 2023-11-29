@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 import { setupServer } from "msw/native";
-import { afterAll, beforeAll, describe, expect, test } from "vitest";
+import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 import App from "../App";
 import SearchProvider from "../resultContext";
 
@@ -145,8 +145,17 @@ describe("Tests related to searching", () => {
     await user.type(input, "hello");
     user.click(button);
 
-    const audioElement = await screen.findByTestId("audio-element");
+    const audioElement = (await screen.findByTestId(
+      "audio-element",
+    )) as HTMLAudioElement;
     expect(audioElement).toBeInTheDocument();
+
+    const mockPlay = vi.fn();
+    audioElement.play = mockPlay;
+
+    audioElement.play();
+
+    expect(mockPlay).toHaveBeenCalled();
   });
 });
 
@@ -206,7 +215,7 @@ describe("Tests related to darkmode/lightmode", () => {
 });
 
 describe("VG: User can add, view and delete a word from favourites page", () => {
-  test.only("Darkmode/Lightmode works correctly", async () => {
+  test("Darkmode/Lightmode works correctly", async () => {
     render(
       <SearchProvider>
         <App />

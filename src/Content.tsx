@@ -11,10 +11,10 @@ export default function Content() {
   const [showSavedWords, setShowSavedWords] = useState(false);
 
   const baseClasses =
-    "text-dark-purple font-bold border-emerald-900 dark:border-emerald-500 -px-1 inline-flex h-12 items-center whitespace-nowrap px-2 py-2 text-center focus:outline-none dark:text-white sm:px-4";
-  const activeClasses = "rounded-t-md border-2 border-b-0";
+    "text-dark-purple font-bold border-emerald-900 dark:border-emerald-500  inline-flex h-12 items-center whitespace-nowrap p-2 text-center focus:outline-none dark:text-floral ";
+  const activeClasses = "rounded-t-md border-2 border-b-0 ";
   const passiveClasses =
-    "bg-transparent cursor-base hover:border-emerald-400 dark:hover:border-emerald-300 border-b-2";
+    "bg-transparent cursor-base hover:border-emerald-400 dark:hover:border-emerald-300 border-b-2 ";
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function Content() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`mx-1 h-4 w-4 sm:h-6 sm:w-6 ${
+              className={`mx-1 h-5 w-5  ${
                 !showSavedWords
                   ? "stroke-emerald-600 dark:stroke-emerald-500"
                   : "stroke-dark-purple dark:stroke-floral"
@@ -44,7 +44,7 @@ export default function Content() {
               />
             </svg>
 
-            <span className="mx-1 text-sm sm:text-base">Search</span>
+            <span className="mx-1 text-sm">Search</span>
           </button>
 
           <button
@@ -55,7 +55,7 @@ export default function Content() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`mx-1 h-4 w-4 sm:h-6 sm:w-6 ${
+              className={`mx-1 h-6 w-6  ${
                 showSavedWords
                   ? "stroke-emerald-600 dark:stroke-emerald-500"
                   : "stroke-dark-purple dark:stroke-floral"
@@ -71,7 +71,7 @@ export default function Content() {
               />
             </svg>
 
-            <span className="mx-1 text-sm sm:text-base">Saved words</span>
+            <span className="mx-1 text-sm ">Saved words</span>
           </button>
         </div>
         <div className="flex flex-1 justify-end border-b-2 border-emerald-900 dark:border-emerald-500">
