@@ -73,6 +73,7 @@ beforeAll(() => server.listen());
 afterAll(() => server.close());
 
 describe("Tests related to searching", () => {
+  // Kontrollerar så att det man skriver i searchbaren syns
   test("User can write in the searchbar", async () => {
     render(<App />);
     const user = userEvent.setup();
@@ -83,6 +84,7 @@ describe("Tests related to searching", () => {
     expect(input).toHaveValue("test");
   });
 
+  // Kontrollerar så att ett felmeddelande finns om man försöker söka med en tom searchbar
   test("User get an error message when trying to search with an empty search field", async () => {
     render(
       <SearchProvider>
@@ -108,6 +110,7 @@ describe("Tests related to searching", () => {
     await expect(response).toBeInTheDocument();
   });
 
+  // Kontrollerar att resultatet från en sökning renderas
   test("Make a search and get a result", async () => {
     render(
       <SearchProvider>
@@ -125,11 +128,14 @@ describe("Tests related to searching", () => {
     user.click(button);
 
     // Satte 1 sekund timeout för att få testet att fungera vid första starten
-    const response = await screen.findByText("hello", {}, { timeout: 1000 });
-    // const response = await screen.findByText("hello", {}, { timeout: 500 });
-    await expect(response).toBeInTheDocument();
+    // Kontrollerar att hello och greeting finns
+    const hello = await screen.findByText("hello", {}, { timeout: 1000 });
+    await expect(hello).toBeInTheDocument();
+    const greeting = await screen.findByText("greeting", {}, { timeout: 1000 });
+    await expect(greeting).toBeInTheDocument();
   });
 
+  // Kontrollerar att det finns ett error-meddelande vid en icke-existerande sökterm
   test("Make a search for a word not found, get error message", async () => {
     render(
       <SearchProvider>
@@ -146,16 +152,15 @@ describe("Tests related to searching", () => {
     expect(input).toHaveValue("asdf");
     user.click(button);
 
-    // Satte 1 sekund timeout för att få testet att fungera vid första starten
     const response = await screen.findByText(
       "No Definitions Found",
       {},
       { timeout: 1000 },
     );
-    // const response = await screen.findByText("hello", {}, { timeout: 500 });
     await expect(response).toBeInTheDocument();
   });
 
+  // Kontrollerar att det finns ett audio-element och att det går att spela upp ljudet (mockar play-funktionen)
   test("Checks if theres an audio element rendered when when searching", async () => {
     render(
       <SearchProvider>
@@ -185,7 +190,8 @@ describe("Tests related to searching", () => {
   });
 });
 
-describe("Tests related to darkmode/lightmode", () => {
+describe("VG Features", () => {
+  // Kontrollerar så att darkmode fungerar genom att hitta tailwind-classes
   test("Darkmode/Lightmode works correctly", async () => {
     render(
       <SearchProvider>
@@ -211,10 +217,11 @@ describe("Tests related to darkmode/lightmode", () => {
       { timeout: 1000 },
     );
   });
-});
 
-describe("VG: User can add, view and delete a word from favourites page", () => {
-  test("Darkmode/Lightmode works correctly", async () => {
+  // Kontrollerar att man kan lägga till och ta bort ord från favoriter.
+  // Genom att söka efter ett ord, lägga till det i favoriter och sedan ta bort det.
+  // Kontrollerar genom att kolla knappar finns/inte finns kvar på sidan före/efter klick.
+  test("User can add, view and delete a word from favourites page", async () => {
     render(
       <SearchProvider>
         <App />
@@ -230,9 +237,7 @@ describe("VG: User can add, view and delete a word from favourites page", () => 
     expect(input).toHaveValue("hello");
     user.click(button);
 
-    // Satte 1 sekund timeout för att få testet att fungera vid första starten
     const response = await screen.findByText("hello", {}, { timeout: 1000 });
-    // const response = await screen.findByText("hello", {}, { timeout: 500 });
     await expect(response).toBeInTheDocument();
 
     const addButton = screen.getByRole("button", {
