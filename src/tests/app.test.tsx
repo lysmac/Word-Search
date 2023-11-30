@@ -130,6 +130,32 @@ describe("Tests related to searching", () => {
     await expect(response).toBeInTheDocument();
   });
 
+  test("Make a search for a word not found, get error message", async () => {
+    render(
+      <SearchProvider>
+        <App />
+      </SearchProvider>,
+    );
+    const user = userEvent.setup();
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button", {
+      name: /Search!/i,
+    });
+
+    await user.type(input, "asdf");
+    expect(input).toHaveValue("asdf");
+    user.click(button);
+
+    // Satte 1 sekund timeout för att få testet att fungera vid första starten
+    const response = await screen.findByText(
+      "No Definitions Found",
+      {},
+      { timeout: 1000 },
+    );
+    // const response = await screen.findByText("hello", {}, { timeout: 500 });
+    await expect(response).toBeInTheDocument();
+  });
+
   test("Checks if theres an audio element rendered when when searching", async () => {
     render(
       <SearchProvider>
@@ -158,33 +184,6 @@ describe("Tests related to searching", () => {
     expect(mockPlay).toHaveBeenCalled();
   });
 });
-
-// test("Play the sound", async () => {
-//   render(
-//     <SearchProvider>
-//       <App />
-//     </SearchProvider>
-//   );
-//   const user = userEvent.setup();
-//   const input = screen.getByRole("textbox");
-//   const button = screen.getByRole("button", {
-//     name: /Search!/i,
-//   });
-
-//   await user.type(input, "hello");
-//   expect(input).toHaveValue("hello");
-//   user.click(button);
-
-//   // Satte 1 sekund timeout för att få testet att fungera vid första starten
-//   const response = await screen.findByText("hello", {}, { timeout: 1000 });
-//   // const response = await screen.findByText("hello", {}, { timeout: 500 });
-//   await expect(response).toBeInTheDocument();
-
-//   const audioButton = screen.getByRole("button", {
-//     name: /AUDIO/i,
-//   });
-//   expect(audioButton).toBeInTheDocument();
-// });
 
 describe("Tests related to darkmode/lightmode", () => {
   test("Darkmode/Lightmode works correctly", async () => {
