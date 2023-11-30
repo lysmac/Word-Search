@@ -9,6 +9,7 @@ export default {
     fontFamily: {
       sans: ["Inter", "sans-serif"],
       serif: ["Merriweather", "serif"],
+      hedvig: ["Hedvig Letters Serif", "serif"],
     },
     colors: {
       floral: "#FFF9EC",

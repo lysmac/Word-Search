@@ -1,7 +1,9 @@
 export default function Header() {
   return (
-    <header className="bg-floral dark:bg-dark-purple">
-      <h1 className="text-emerald-500">WORD LOOKUP</h1>
+    <header className="justify-centerpt-6 flex w-full bg-floral dark:bg-dark-purple">
+      <h1 className="font-hedvig text-7xl font-extrabold tracking-wide text-emerald-700  dark:text-floral">
+        WORD SEARCH
+      </h1>
     </header>
   );
 }

@@ -34,6 +34,7 @@ interface SearchContextValue {
   saveWord: (word: SearchResult) => void;
   removeWord: (word: SearchResult) => void;
   savedWords: SearchResult[];
+  validWord: boolean;
 }
 
 interface Props {
@@ -47,12 +48,14 @@ export const SearchContext = createContext<SearchContextValue>({
   saveWord: () => {},
   removeWord: () => {},
   savedWords: [],
+  validWord: true,
 });
 
 export default function SearchProvider({ children }: Props) {
   const [searchResult, setSearchResult] = useState<SearchResult[] | null>(null);
   const [darkMode, setDarkMode] = useState(false);
   const [savedWords, setSavedWords] = useState<SearchResult[]>([]);
+  const [validWord, setValidWord] = useState(true);
 
   function saveWord(word: SearchResult) {
     setSavedWords([...savedWords, word]);
@@ -73,8 +76,12 @@ export default function SearchProvider({ children }: Props) {
       `https://api.dictionaryapi.dev/api/v2/entries/en_US/${word}`,
     );
     const data = await response.json();
+    if (data.title === "No Definitions Found") {
+      setValidWord(false);
+      return;
+    }
+    setValidWord(true);
     setSearchResult(data);
-    console.log(data);
   };
 
   return (
@@ -86,6 +93,7 @@ export default function SearchProvider({ children }: Props) {
         saveWord,
         removeWord,
         savedWords,
+        validWord,
       }}
     >
       <div id="wrapper" className={darkMode ? "dark" : "light"}>

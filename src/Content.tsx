@@ -3,7 +3,7 @@ import WordCard from "./WordCard";
 import { SearchContext, SearchResult } from "./resultContext";
 
 export default function Content() {
-  const { searchResult, saveWord, removeWord, savedWords } =
+  const { searchResult, saveWord, removeWord, savedWords, validWord } =
     useContext(SearchContext);
 
   const { toggleDarkMode } = useContext(SearchContext);
@@ -85,38 +85,45 @@ export default function Content() {
       </div>
 
       <div className="flex w-full flex-col items-center border-2 border-t-0 border-emerald-900 p-2 dark:border-emerald-500">
-        {!showSavedWords &&
-          searchResult &&
-          searchResult.map((word: SearchResult, index: number) => (
-            <>
-              <WordCard key={index} {...word} />
-              <button
-                className="rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 "
-                onClick={() => saveWord(word)}
-              >
-                {" "}
-                Add to favourites
-              </button>
-            </>
-          ))}
-        {showSavedWords && savedWords && (
-          <div>
-            <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-300">
-              Saved words
-            </h1>
-            {savedWords.map((word: SearchResult, index: number) => (
-              <>
-                <WordCard key={index} {...word} />
-
-                <button
-                  className="rounded-md border-2 border-emerald-950 bg-red-500 p-2 "
-                  onClick={() => removeWord(word)}
-                >
-                  Remove Word
-                </button>
-              </>
-            ))}
-          </div>
+        {!validWord ? (
+          <h1 className="py-4 text-4xl font-extrabold capitalize">
+            No Definitions Found
+          </h1>
+        ) : (
+          <>
+            {!showSavedWords &&
+              searchResult &&
+              searchResult.map((word: SearchResult, index: number) => (
+                <>
+                  <WordCard key={index} {...word} />
+                  <button
+                    className="rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 "
+                    onClick={() => saveWord(word)}
+                  >
+                    {" "}
+                    Add to favourites
+                  </button>
+                </>
+              ))}
+            {showSavedWords && savedWords && (
+              <div>
+                <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-300">
+                  Saved words
+                </h1>
+                {savedWords.map((word: SearchResult, index: number) => (
+                  <>
+                    <WordCard key={index} {...word} />
+                    <button
+                      className="rounded-md border-2 border-emerald-950 bg-red-500 p-2 "
+                      onClick={() => removeWord(word)}
+                    >
+                      Remove Word
+                    </button>
+                  </>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </>
