@@ -1,14 +1,17 @@
 import { useContext, useState } from "react";
-import { createPortal } from "react-dom";
 import ErrorBanner from "./ErrorBanner";
 import { SearchContext } from "./resultContext";
 
 export default function Searchbar() {
+  // Vad som är i sökfältet
   const [searchValue, setSearchValue] = useState("");
   const { fetchSearchResult } = useContext(SearchContext);
-  const [error, setError] = useState(false);
-  const targetDiv = document.getElementById("error");
 
+  // State för att visa felmeddelande
+  const [error, setError] = useState(false);
+
+  // Kollar så det finns något som inte är mellanslag i sökfältet, om det gör det timeoutar den setError till false efter 3 sekunder
+  // Annars kör den fetchSearchResult
   function onSubmit(text: string) {
     if (text.trim() === "") {
       setError(true);
@@ -46,7 +49,7 @@ export default function Searchbar() {
         </button>
       </form>
 
-      {targetDiv && createPortal(error && <ErrorBanner />, targetDiv)}
+      {error && <ErrorBanner />}
     </>
   );
 }

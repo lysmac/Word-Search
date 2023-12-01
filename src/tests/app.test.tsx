@@ -6,65 +6,12 @@ import { setupServer } from "msw/native";
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 import App from "../App";
 import SearchProvider from "../resultContext";
+import { helloWord } from "./mockWord";
 
 const server = setupServer(
   rest.get(
     "https://api.dictionaryapi.dev/api/v2/entries/en/hello",
-    (req, res, ctx) =>
-      res(
-        ctx.json({
-          word: "hello",
-          phonetic: "həˈləʊ",
-          phonetics: [
-            {
-              text: "həˈləʊ",
-              audio:
-                "//ssl.gstatic.com/dictionary/static/sounds/20200429/hello--_gb_1.mp3",
-            },
-            {
-              text: "hɛˈləʊ",
-            },
-          ],
-          origin:
-            "early 19th century: variant of earlier hollo ; related to holla.",
-          meanings: [
-            {
-              partOfSpeech: "exclamation",
-              definitions: [
-                {
-                  definition:
-                    "used as a greeting or to begin a phone conversation.",
-                  example: "hello there, Katie!",
-                  synonyms: [],
-                  antonyms: [],
-                },
-              ],
-            },
-            {
-              partOfSpeech: "noun",
-              definitions: [
-                {
-                  definition: "an utterance of ‘hello’; a greeting.",
-                  example: "she was getting polite nods and hellos from people",
-                  synonyms: [],
-                  antonyms: [],
-                },
-              ],
-            },
-            {
-              partOfSpeech: "verb",
-              definitions: [
-                {
-                  definition: "say or shout ‘hello’.",
-                  example: "I pressed the phone button and helloed",
-                  synonyms: [],
-                  antonyms: [],
-                },
-              ],
-            },
-          ],
-        }),
-      ),
+    (_req, res, ctx) => res(ctx.json(helloWord)),
   ),
 );
 
@@ -127,8 +74,7 @@ describe("Tests related to searching", () => {
     expect(input).toHaveValue("hello");
     user.click(button);
 
-    // Satte 1 sekund timeout för att få testet att fungera vid första starten
-    // Kontrollerar att hello och greeting finns
+    // Kontrollerar att hello och greeting finns, timeout för att ge dem tid att renderas
     const hello = await screen.findByText("hello", {}, { timeout: 1000 });
     await expect(hello).toBeInTheDocument();
     const greeting = await screen.findByText("greeting", {}, { timeout: 1000 });
@@ -176,11 +122,13 @@ describe("Tests related to searching", () => {
     await user.type(input, "hello");
     user.click(button);
 
+    // Kontrollerar att audio-element finns
     const audioElement = (await screen.findByTestId(
       "audio-element",
     )) as HTMLAudioElement;
     expect(audioElement).toBeInTheDocument();
 
+    // Mockar play-funktionen och kollar så att den anropas
     const mockPlay = vi.fn();
     audioElement.play = mockPlay;
 
@@ -233,6 +181,10 @@ describe("VG Features", () => {
       name: /Search!/i,
     });
 
+    // Kollar so sessionStorage är en tom array
+    const storedData = sessionStorage.getItem("savedWords");
+    expect(storedData).toBe("[]");
+
     await user.type(input, "hello");
     expect(input).toHaveValue("hello");
     user.click(button);
@@ -245,17 +197,28 @@ describe("VG Features", () => {
     });
     user.click(addButton);
 
+    // Kontrollerar att session storage inte längre är tomt, dvs. att ordet lagts till
+    await waitFor(
+      () => {
+        const savedSessionData = sessionStorage.getItem("savedWords");
+        expect(savedSessionData).not.toBe("[]");
+      },
+      { timeout: 500 },
+    );
+
+    // Går till sidan saved words
     const savedWordsButton = screen.getByRole("button", {
       name: /Saved words/i,
     });
-
     await user.click(savedWordsButton);
 
+    // Kollar så remove word finns på sidan, sedan trycker på knappen och kollar så den försvinner
     const removeButton = screen.getByRole("button", {
       name: /Remove Word/i,
     });
 
     await expect(removeButton).toBeInTheDocument();
+
     user.click(removeButton);
 
     await waitFor(

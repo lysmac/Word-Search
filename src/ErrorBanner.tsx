@@ -1,6 +1,6 @@
 export default function ErrorBanner() {
   return (
-    <div className="dark:bg-gray-800  flex w-full max-w-sm overflow-hidden rounded-lg bg-floral shadow-md">
+    <div className="absolute inset-x-0 top-16 mx-auto flex w-full max-w-sm overflow-hidden rounded-lg border-2 border-dark-purple bg-white shadow-md">
       <div className="flex w-12 items-center justify-center bg-red-500">
         <svg
           className="fill-current h-6 w-6 text-white"

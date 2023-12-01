@@ -97,17 +97,17 @@ export default function Content() {
         Om ordet finns mappas det till en komponent som visar ordet och dess definitioner 
         Kollar också vilken "sida" som ska visas, sökresultat eller sparade ord */}
         {!validWord ? (
-          <h1 className="py-4 text-4xl font-extrabold capitalize">
+          <h1 className="py-4 text-5xl font-extrabold capitalize">
             No Definitions Found
           </h1>
         ) : (
           <>
             {!showSavedWords &&
               searchResult &&
-              searchResult.map((word: SearchResult, index: number) => (
+              searchResult.map((word: SearchResult) => (
                 <>
                   <div className="flex w-full flex-col items-center pb-16">
-                    <WordCard key={index} {...word} />
+                    <WordCard key={word.id} {...word} />
                     <button
                       className="w-1/2 rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 hover:bg-emerald-600"
                       onClick={() => saveWord(word)}
@@ -119,19 +119,21 @@ export default function Content() {
                 </>
               ))}
             {showSavedWords && savedWords && (
-              <div>
-                <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-300">
+              <div className="flex flex-col items-center">
+                <h1 className="py-4 text-5xl font-extrabold capitalize text-emerald-900 dark:text-emerald-300">
                   Saved words
                 </h1>
-                {savedWords.map((word: SearchResult, index: number) => (
+                {savedWords.map((word: SearchResult) => (
                   <>
-                    <WordCard key={index} {...word} />
-                    <button
-                      className="rounded-md border-2 border-emerald-950 bg-red-500 p-2 "
-                      onClick={() => removeWord(word)}
-                    >
-                      Remove Word
-                    </button>
+                    <div className="flex w-full flex-col items-center pb-16">
+                      <WordCard key={word.id} {...word} />
+                      <button
+                        className="w-1/2 rounded-md  border-2 border-dark-purple bg-dark-purple p-2 text-floral hover:bg-red-950 dark:border-floral"
+                        onClick={() => removeWord(word.id!)}
+                      >
+                        Remove Word
+                      </button>
+                    </div>
                   </>
                 ))}
               </div>

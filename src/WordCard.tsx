@@ -1,10 +1,11 @@
 import { SearchResult } from "./resultContext";
 
+// Renderar ut sökresultatet
 export default function WordCard(props: SearchResult, index: number) {
   return (
     <>
       <div className="w-full p-2" key={index}>
-        <p className="flex items-center">
+        <div className="flex items-center">
           <h2 className="pr-2 text-4xl font-extrabold capitalize">
             {props.word}
           </h2>
@@ -12,7 +13,7 @@ export default function WordCard(props: SearchResult, index: number) {
           <span className="text-xl italic">
             {props.phonetics.map((phonetic) => phonetic.text).join(" - ")}
           </span>
-        </p>
+        </div>
         {props.phonetics?.find((phonetic) => phonetic.audio) ? (
           <div className="flex justify-center py-2">
             <audio controls data-testid="audio-element">
@@ -32,10 +33,10 @@ export default function WordCard(props: SearchResult, index: number) {
             </h3>
             <div className="">
               {meaning.synonyms && meaning.synonyms.length > 0 && (
-                <p className="pb-2 text-sm">
+                <div className="pb-2 text-sm">
                   <h4 className="text-lg font-bold">Synonyms:</h4>{" "}
                   {meaning.synonyms.join(", ")}
-                </p>
+                </div>
               )}
 
               {meaning.definitions && meaning.definitions.length > 0 && (

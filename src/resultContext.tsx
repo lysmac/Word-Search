@@ -1,12 +1,14 @@
 import { createContext, useState } from "react";
 import { useSessionStorageState } from "./useSessionStorage";
 
+// Interfaces för att kunna använda datan från API:et
 export interface SearchResult {
   word: string;
   phonetic: string;
   phonetics: Phonetic[];
   origin: string;
   meanings: Meaning[];
+  id?: number;
 }
 
 export interface Meaning {
@@ -33,7 +35,7 @@ interface SearchContextValue {
   fetchSearchResult: (word: string) => Promise<void>;
   toggleDarkMode: () => void;
   saveWord: (word: SearchResult) => void;
-  removeWord: (word: SearchResult) => void;
+  removeWord: (wordId: number) => void;
   savedWords: SearchResult[];
   validWord: boolean;
 }
@@ -53,27 +55,36 @@ export const SearchContext = createContext<SearchContextValue>({
 });
 
 export default function SearchProvider({ children }: Props) {
+  // Sökresultat från API:et
   const [searchResult, setSearchResult] = useState<SearchResult[] | null>(null);
+  // Boolean för darkmode
   const [darkMode, setDarkMode] = useState(false);
+  // Sparade ord för favoriter, använder session-storage hook för att spara datan även där
   const [savedWords, setSavedWords] = useSessionStorageState<SearchResult[]>(
     [],
     "savedWords",
   );
+  // Boolean för att kontrollera om ordet är giltigt eller inte
   const [validWord, setValidWord] = useState(true);
 
+  // Sparar ordet som favorit, använder Date.now() för att få ett unikt id
   function saveWord(word: SearchResult) {
-    setSavedWords([...savedWords, word]);
+    const wordWithId = { ...word, id: Date.now() };
+    setSavedWords([...savedWords, wordWithId]);
   }
 
-  function removeWord(word: SearchResult) {
-    const newSavedWords = savedWords.filter((w) => w.word !== word.word);
+  // Tar bort ordet från favoriter
+  function removeWord(wordId: number) {
+    const newSavedWords = savedWords.filter((w) => w.id !== wordId);
     setSavedWords(newSavedWords);
   }
 
+  // Toggla darkmode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
+  // Hämtar sökresultat från API:et. Om ordet inte finns i API:et sätts validWord till false som triggar errorkomponenten
   const fetchSearchResult = async (word: string) => {
     setSearchResult(null);
     const response = await fetch(
