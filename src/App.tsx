@@ -13,6 +13,7 @@ export default function App() {
         >
           <Header />
           <Searchbar />
+          <div id="error"></div>
           <Content />
         </div>
       </div>

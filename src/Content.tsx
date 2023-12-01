@@ -26,7 +26,7 @@ export default function Content() {
   return (
     <>
       {/* Menyn med knappar för att välja mellan sökresultat och sparade ord, svgs och byta tema */}
-      <div className="flex w-full pt-2 ">
+      <div className="flex w-full ">
         <div className="flex overflow-x-auto whitespace-nowrap">
           <button
             onClick={() => setShowSavedWords(false)}
@@ -106,14 +106,16 @@ export default function Content() {
               searchResult &&
               searchResult.map((word: SearchResult, index: number) => (
                 <>
-                  <WordCard key={index} {...word} />
-                  <button
-                    className="rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 "
-                    onClick={() => saveWord(word)}
-                  >
-                    {" "}
-                    Add to favourites
-                  </button>
+                  <div className="flex w-full flex-col items-center pb-16">
+                    <WordCard key={index} {...word} />
+                    <button
+                      className="w-1/2 rounded-md border-2 border-emerald-950 bg-emerald-500 p-2 hover:bg-emerald-600"
+                      onClick={() => saveWord(word)}
+                    >
+                      {" "}
+                      Add to favourites
+                    </button>
+                  </div>
                 </>
               ))}
             {showSavedWords && savedWords && (
