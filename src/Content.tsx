@@ -3,13 +3,20 @@ import WordCard from "./WordCard";
 import { SearchContext, SearchResult } from "./resultContext";
 
 export default function Content() {
-  const { searchResult, saveWord, removeWord, savedWords, validWord } =
-    useContext(SearchContext);
+  // Hämtar funktioner/variabler från min context som behövs
+  const {
+    searchResult,
+    saveWord,
+    removeWord,
+    savedWords,
+    validWord,
+    toggleDarkMode,
+  } = useContext(SearchContext);
 
-  const { toggleDarkMode } = useContext(SearchContext);
-
+  // State för att visa sökresultat eller sparade ord
   const [showSavedWords, setShowSavedWords] = useState(false);
 
+  // Variabler för att styla knappar för menyn
   const baseClasses =
     "text-dark-purple font-bold border-emerald-900 dark:border-emerald-500  inline-flex h-12 items-center whitespace-nowrap p-2 text-center focus:outline-none dark:text-floral ";
   const activeClasses = "rounded-t-md border-2 border-b-0 ";
@@ -18,6 +25,7 @@ export default function Content() {
 
   return (
     <>
+      {/* Menyn med knappar för att välja mellan sökresultat och sparade ord, svgs och byta tema */}
       <div className="flex w-full pt-2 ">
         <div className="flex overflow-x-auto whitespace-nowrap">
           <button
@@ -85,6 +93,9 @@ export default function Content() {
       </div>
 
       <div className="flex w-full flex-col items-center border-2 border-t-0 border-emerald-900 p-2 dark:border-emerald-500">
+        {/* Kontrollerar om ordet finns i API:et, om inte så visas ett felmeddelande
+        Om ordet finns mappas det till en komponent som visar ordet och dess definitioner 
+        Kollar också vilken "sida" som ska visas, sökresultat eller sparade ord */}
         {!validWord ? (
           <h1 className="py-4 text-4xl font-extrabold capitalize">
             No Definitions Found

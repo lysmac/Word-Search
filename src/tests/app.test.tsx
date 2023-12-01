@@ -205,7 +205,7 @@ describe("VG Features", () => {
     const wrapperDiv = document.querySelector("#wrapper");
     const headerElement = screen.getByRole("banner");
 
-    // Kollar så tailwind-classes finns för light/darkmode
+    // Kollar så tailwind-classes finns för light/darkmode på headern
     expect(headerElement).toHaveClass("dark:bg-dark-purple bg-floral");
 
     // Klickar på knappen för att byta tema och ser till att wrappern får class dark
