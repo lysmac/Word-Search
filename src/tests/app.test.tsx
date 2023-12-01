@@ -238,7 +238,7 @@ describe("VG Features", () => {
     user.click(button);
 
     const response = await screen.findByText("hello", {}, { timeout: 1000 });
-    await expect(response).toBeInTheDocument();
+    expect(response).toBeInTheDocument();
 
     const addButton = screen.getByRole("button", {
       name: /Add to favourites/i,

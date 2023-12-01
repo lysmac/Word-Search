@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { useLocalStorageState } from "./useLocalStorage";
+import { useSessionStorageState } from "./useSessionStorage";
 
 export interface SearchResult {
   word: string;
@@ -55,7 +55,7 @@ export const SearchContext = createContext<SearchContextValue>({
 export default function SearchProvider({ children }: Props) {
   const [searchResult, setSearchResult] = useState<SearchResult[] | null>(null);
   const [darkMode, setDarkMode] = useState(false);
-  const [savedWords, setSavedWords] = useLocalStorageState<SearchResult[]>(
+  const [savedWords, setSavedWords] = useSessionStorageState<SearchResult[]>(
     [],
     "savedWords",
   );
